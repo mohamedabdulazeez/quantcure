@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Quantcure</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Argent+CF:wght@400;700&family=GreyCliff+CF:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#000000',
+secondary: '#666666'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+},
+fontFamily: {
+'argent': ['Argent CF', 'serif'],
+'greycliff': ['GreyCliff CF', 'sans-serif']
+},
+lineHeight: {
+'relaxed': '1.75',
+'loose': '2'
+},
+spacing: {
+'18': '4.5rem',
+'22': '5.5rem',
+}
+}
+}
+}
+</script>
+    <style>
+        /* ============================================= */
+        /* Styles originally from <head> <style> block  */
+        /* ============================================= */
+        :where([class^="ri-"])::before { content: "\f3c2"; } /* Base for Remix Icons if classes are used */
+
+        /* Header transition styles */
+        #mainNav {
+          transition: transform 0.4s ease, opacity 0.4s ease, background-color 0.4s ease;
+        }
+        
+        #mainNav.hidden {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        
+        #mainNav.visible {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        .menu-open {
+          /* Applied via JS to show the menu */
+          transform: translateX(0) !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+        }
+
+        /* Menu animation styles */
+        #menu {
+          transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+          visibility: hidden;
+          box-shadow: -5px 0 15px rgba(0,0,0,0.25);
+        }
+        
+        #menu.menu-open {
+          visibility: visible;
+        }
+        
+        #menu a {
+          position: relative;
+          transition: all 0.3s ease;
+        }
+        
+        #menu a:hover {
+          background-color: rgba(255,255,255,0.1);
+          transform: translateX(10px);
+        }
+        
+        #menu a:hover::before {
+          content: '';
+          position: absolute;
+          left: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 6px;
+          height: 6px;
+          background-color: white;
+          border-radius: 50%;
+        }
+
+        /* This selector is tied to Tailwind structure */
+        .flex.flex-col.items-start.justify-center {
+          transition: all 0.3s ease;
+        }
+
+        .service-card {
+          transition: all 0.3s ease;
+          background: transparent; /* Base background */
+        }
+        .service-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1); /* White shadow */
+          border-color: rgba(255, 255, 255, 0.5); /* White border */
+        }
+
+        .blog-card {
+          transition: all 0.5s ease;
+        }
+        .blog-card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* Darker shadow */
+          border-color: white; /* White border */
+        }
+
+        /* Feature Card styles (if used) */
+        .feature-card {
+          position: relative;
+          overflow: hidden;
+          background: black;
+          transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+        .feature-card:hover {
+          transform: scale(1.1); /* Scale up effect */
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8); /* Glowing shadow */
+        }
+        .feature-card:before {
+          /* Sliding light effect element */
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: rgba(255, 255, 255, 0.1);
+          transform: skewX(-45deg);
+          transition: left 0.5s ease;
+        }
+        .feature-card:hover:before {
+          left: 100%; /* Move light across on hover */
+        }
+        .feature-card h3 {
+          /* Animate heading in */
+          transform: translateY(20px);
+          opacity: 0;
+          transition: all 0.5s ease;
+        }
+        .feature-card:hover h3 {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        .feature-card p {
+          /* Animate paragraph in */
+          transform: translateY(20px);
+          opacity: 0;
+          transition: all 0.7s ease;
+        }
+        .feature-card:hover p {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        /* Background images for specific cards (if used) */
+        .card-1 {
+            background-image: url('https://sl.bing.net/dNxcZjRvHpY');
+            background-size: cover;
+            background-position: center;
+        }
+        .card-2 {
+            background-image: url('image2.jpg'); /* Ensure image exists */
+            background-size: cover;
+            background-position: center;
+        }
+        .card-3 {
+            background-image: url('image3.jpg'); /* Ensure image exists */
+            background-size: cover;
+            background-position: center;
+        }
+        .card-4 {
+            background-image: url('image4.jpg'); /* Ensure image exists */
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Style for the Core Values Diagram image */
+        .core-values-img {
+          height: 200px; /* Specific height */
+          width: auto; /* Maintain aspect ratio */
+          object-fit: contain; /* Scale image correctly */
+          /* Note: Inline style also had 'position: relative; top: -50px;' */
+        }
+
+        /* ============================================================= */
+        /* Styles originally from body <style> block 1 (Stats/Mission) */
+        /* ============================================================= */
+        @font-face {
+            font-family: 'Argent CF';
+            src: local('Argent CF'); /* Requires font installed locally */
+        }
+        .number-font {
+            font-family: 'Argent CF', serif; /* Apply Argent CF font */
+        }
+        /* This selector depends on Tailwind classes 'cards' and 'flex' */
+        .cards.flex {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+        }
+
+        /* ========================================================== */
+        /* Styles originally from body <style> block 2 (Timeline)   */
+        /* ========================================================== */
+        @import url('https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400&display=swap'); /* Import Jost font */
+
+        .design-section { /* Styling for the section containing the timeline */
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background-color: #000000; /* Black background */
+          min-height: auto;
+          padding: 60px 0;
+          font-family: 'Argent CF', 'GreyCliff CF', sans-serif; /* Set default fonts for this section */
+        }
+
+        .design { /* Seems unused in provided HTML structure */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        /* Default timeline layout (Mobile First) */
+        .timeline {
+          width: 95%;
+          height: auto;
+          max-width: 800px;
+          margin: 0 auto;
+          display: flex; /* Default: Single column flex */
+          flex-direction: column;
+        }
+
+        .timeline-content {
+          padding: 16px;
+          background: #1f1f1f; /* Dark background */
+          -webkit-box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #242424;
+          box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #242424;
+          color: white;
+          transition: 0.4s ease;
+          overflow-wrap: break-word !important;
+          margin: 0.75rem;
+          margin-bottom: 16px;
+          border-radius: 6px; /* Slightly rounded corners */
+          font-size: 14px;
+        }
+
+        .timeline-content h3,
+        .timeline-content h6,
+        .timeline-content h7 {
+          font-size: 18px;
+          margin-bottom: 8px;
+          font-weight: bold;
+        }
+
+        .timeline-component {
+          margin: 0px 12px 16px 12px;
+        }
+
+        /* Timeline layout for larger screens (Desktop) */
+        @media screen and (min-width: 768px) {
+          .timeline {
+            display: grid; /* Switch to Grid layout */
+            grid-template-columns: 1fr 3px 1fr; /* Define 3 columns: content | line | content */
+            width: 85%;
+            flex-direction: initial;
+          }
+          .timeline-middle { /* The central vertical line */
+            position: relative;
+            background-image: linear-gradient(45deg, #F27121, #E94057, #8A2387); /* Gradient */
+            width: 3px;
+            height: 100%;
+          }
+          .main-middle { /* Seems unused */
+            opacity: 0;
+          }
+          .timeline-circle { /* Dots on the timeline */
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-image: linear-gradient(45deg, #F27121, #E94057, #8A2387); /* Matching gradient */
+            -webkit-transform: translateX(-50%);
+                    transform: translateX(-50%);
+          }
+          .timeline-content {
+            padding: 1.75rem;
+            margin: 1rem;
+            margin-bottom: 20px;
+            font-size: 16px;
+          }
+          .timeline-content h3,
+          .timeline-content h6,
+          .timeline-content h7 {
+            font-size: 20px;
+            margin-bottom: 12px;
+          }
+          .timeline-component {
+            margin: 0px 20px 20px 20px;
+          }
+          /* Add styles for .timeline-empty if needed, e.g., min-height */
+        }
+
+        .button-container { /* Container for CT Dock / Bioactivity buttons */
+          display: flex;
+          justify-content: center;
+          gap: 12px;
+          margin-bottom: 30px;
+          flex-wrap: wrap;
+        }
+
+        .timeline-btn { /* Styling for timeline toggle buttons */
+          padding: 8px 16px;
+          border: 2px solid #E94057; /* Specific border color */
+          border-radius: 5px;
+          color: white;
+          cursor: pointer;
+          background: transparent; /* No background by default */
+          transition: all 0.3s ease;
+          font-size: 14px;
+        }
+        .timeline-btn:hover {
+          background: rgba(233, 64, 87, 0.2); /* Subtle background on hover */
+        }
+        .timeline-btn.selected { /* Style when button is active (set via JS) */
+          background: #E94057; /* Solid background when selected */
+        }
+
+        /* Timeline visibility control (requires JS to toggle 'active' class) */
+        .timeline {
+          display: none; /* Hide timelines by default */
+          /* This rule takes precedence over the initial 'display: flex' */
+        }
+        .timeline.active {
+          display: flex;
+          /* Show active timeline (use grid to match media query) */
+          /* On smaller screens, may need JS to set 'display: flex' instead if needed */
+        }
+
+        @media screen and (min-width: 768px) {
+          .timeline.active {
+            display: grid;
+          }
+          
+          .timeline-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+          }
+          
+          .button-container {
+            gap: 20px;
+            margin-bottom: 40px;
+          }
+        }
+
+        /* ==================================================================== */
+        /* Styles originally from body <style> block 3 (Team - Flip Card Init) */
+        /* ==================================================================== */
+        .flip-card { /* Base dimensions and perspective for team cards */
+          perspective: 1000px;
+          height: 256px; /* Initial definition (might be overridden later) */
+          width: 256px;
+        }
+        .flip-card-inner { /* Container for front/back faces */
+          position: relative;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          transition: transform 0.8s;
+          transform-style: preserve-3d;
+        }
+        .flip-card:hover .flip-card-inner { /* Trigger flip on hover */
+          transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back { /* Common styles for both faces */
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          -webkit-backface-visibility: hidden; /* For Safari */
+          backface-visibility: hidden; /* Hide the back side */
+        }
+        .flip-card-back { /* Position the back face correctly */
+          transform: rotateY(180deg);
+        }
+
+        /* ================================================================================= */
+        /* Styles originally from body <style> block 4 (Blog Hover / Flip Card Override) */
+        /* ================================================================================= */
+        .blog-card img {
+          transition: all 0.5s ease; /* Animate image scaling */
+        }
+        .blog-card:hover img {
+          transform: scale(1.1); /* Scale image on hover */
+        }
+        .blog-card h3,
+        .blog-card p {
+          transition: all 0.3s ease; /* Animate text color changes */
+        }
+        .blog-card:hover h3 {
+          color: white; /* Change heading color */
+        }
+        .blog-card:hover p {
+          color: #f3f4f6; /* Change text color (Tailwind gray-100) */
+        }
+
+        /* Flip Card Override - applies to elements with .flip-card class */
+        .flip-card {
+          perspective: 1000px; /* Redundant, already defined */
+          height: 400px; /* OVERRIDES previous height of 256px */
+          /* Width is not specified here, so it remains 256px from previous rule */
+        }
+        /* The following rules are duplicates of the previous flip-card styles */
+        /* They don't add new behavior but were present in the original code */
+        .flip-card-inner {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          transition: transform 0.8s;
+          transform-style: preserve-3d;
+        }
+        .flip-card:hover .flip-card-inner {
+          transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+        .flip-card-back {
+          transform: rotateY(180deg);
+        }
+
+        /* ================================================================ */
+        /* Styles originally from body <style> block 5 (Before Footer)    */
+        /* ================================================================ */
+        .form-input-custom { /* This class doesn't seem to be used in the provided HTML */
+          width: 100%;
+        }
+
+        /* Add responsive container styles */
+        .responsive-container {
+            width: 92%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .responsive-container {
+                width: 90%;
+                padding: 0 25px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .responsive-container {
+                width: 85%;
+                padding: 0 30px;
+            }
+        }
+        
+        /* Consistent spacing for content sections */
+        .content-section {
+            margin-bottom: 4rem;
+            padding: 2rem 0;
+        }
+        
+        @media (min-width: 768px) {
+            .content-section {
+                margin-bottom: 5rem;
+                padding: 2.5rem 0;
+            }
+        }
+        
+        /* Ensure proportional column layouts */
+        .column-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .column-layout {
+                flex-direction: row;
+                gap: 2.5rem;
+            }
+            
+            .column-layout > * {
+                flex: 1;
+            }
+        }
+        
+        /* Consistent card styling */
+        .content-card {
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+        }
+        
+        @media (min-width: 768px) {
+            .content-card {
+                padding: 2rem;
+            }
+        }
+
+    </style>
+</head>
+<body class="bg-primary min-h-screen text-white">
+<nav class="fixed w-full z-50 px-2 sm:px-6 py-4 transition-all duration-300" id="mainNav">
+<div class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+<h1 class="font-argent text-base sm:text-lg md:text-xl transition-all duration-300">Quantcure</h1>
+<div class="flex items-center">
+<button id="menuBtn" class="w-10 h-10 flex flex-col justify-center space-y-1.5 cursor-pointer p-2">
+<span class="w-6 sm:w-8 h-0.5 bg-white"></span>
+<span class="w-6 sm:w-8 h-0.5 bg-white"></span>
+<span class="w-6 sm:w-8 h-0.5 bg-white"></span>
+</button>
+</div>
+<div id="menu" class="fixed top-20 right-0 w-64 h-screen bg-black border-l border-gray-800 rounded-l-lg shadow-xl transform translate-x-full opacity-0 transition-all duration-300 ease-in-out z-50 overflow-y-auto">
+<div class="py-6">
+<ul class="font-greycliff text-sm space-y-2">
+<li><a href="#home" class="text-white hover:text-gray-300 block py-3 px-6 transition-all duration-200 hover:bg-gray-900 hover:pl-8">Home</a></li>
+<li><a href="#stats" class="text-white hover:text-gray-300 block py-3 px-6 transition-all duration-200 hover:bg-gray-900 hover:pl-8">Goal</a></li>
+<li><a href="#mission" class="text-white hover:text-gray-300 block py-3 px-6 transition-all duration-200 hover:bg-gray-900 hover:pl-8">Mission & Vision</a></li>
+<li><a href="#timeline" class="text-white hover:text-gray-300 block py-3 px-6 transition-all duration-200 hover:bg-gray-900 hover:pl-8">RoadMap</a></li>
+<li><a href="#services" class="text-white hover:text-gray-300 block py-3 px-6 transition-all duration-200 hover:bg-gray-900 hover:pl-8">Products</a></li>
+<li><a href="#blog" class="text-white hover:text-gray-300 block py-3 px-6 transition-all duration-200 hover:bg-gray-900 hover:pl-8">Blogs</a></li>
+<li><a href="#story" class="text-white hover:text-gray-300 block py-3 px-6 transition-all duration-200 hover:bg-gray-900 hover:pl-8">Our Story</a></li>
+<li><a href="#team" class="text-white hover:text-gray-300 block py-3 px-6 transition-all duration-200 hover:bg-gray-900 hover:pl-8">About Us</a></li>
+<li><a href="#contact" class="text-white hover:text-gray-300 block py-3 px-6 transition-all duration-200 hover:bg-gray-900 hover:pl-8">Contact</a></li>
+</ul>
+</div>
+</div>
+</div>
+</nav>
+<main>
+<section id="home" class="min-h-screen flex items-center pt-20 relative overflow-hidden">
+<div class="absolute right-0 top-0 w-full md:w-1/2 h-full opacity-30 md:opacity-80">
+<img src="https://static.independent.co.uk/2020/11/30/19/SCIENCE%20Proteins%20%2007163297.jpg" alt="Hemoglobin Structure" class="w-full h-full object-contain" loading="lazy">
+</div>
+<div class="container mx-auto px-6 relative z-10">
+<div class="max-w-2xl">
+<p class="font-argent text-lg sm:text-xl mb-8 tracking-wide">At Quantcure, We</p>
+<h1 class="font-argent text-3xl sm:text-5xl mb-6 leading-tight">Rethink</h1>
+<h1 class="font-argent text-3xl sm:text-5xl mb-6 leading-tight">Reimagine</h1>
+<h1 class="font-argent text-3xl sm:text-5xl mb-10 leading-tight">Rediscover</h1>
+<p class="font-argent text-lg sm:text-xl leading-relaxed tracking-wide">A deeptech startup working on leveraging deep learning to build wider, better, faster drug discovery pipeline.</p>
+</div>
+</div>
+</section>
+    <style>
+      @font-face {
+          font-family: 'Argent CF';
+          src: local('Argent CF');
+      }
+      .number-font {
+          font-family: 'Argent CF', serif;
+      }
+cards.flex {
+  display: flex;
+  justify-content: center; /* Centers cards horizontally */
+  align-items: center; /* Centers cards vertically if necessary */
+  gap: 10px; /* Adds spacing between cards */
+}
+
+    </style>
+  </head>
+  <body class="bg-black min-h-screen">
+    <div class="responsive-container py-12">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
+        <div
+          class="bg-secondary rounded-2xl p-6 sm:p-8 lg:p-10 flex flex-col items-center justify-center text-center shadow-lg"
+        >
+          <p class="text-white text-base sm:text-lg mb-2">There are</p>
+          <p class="number-font text-white text-4xl sm:text-5xl font-bold mb-3">22,962</p>
+          <p class="text-white text-base sm:text-lg mb-1">Identified Disorders (Diseases)</p>
+          <p class="text-white text-xs mt-1 opacity-80">As per Malacards</p>
+        </div>
+
+        <div
+          class="bg-secondary rounded-2xl p-6 sm:p-8 lg:p-10 flex flex-col items-center justify-center text-center shadow-lg"
+        >
+          <p class="text-white text-base sm:text-lg mb-2">But are</p>
+          <p class="number-font text-white text-4xl sm:text-5xl font-bold mb-3">16,000+</p>
+          <p class="text-white text-base sm:text-lg mb-1">Target based compound information</p>
+          <p class="text-white text-xs mt-1 opacity-80">
+            In Opensource platforms like ChemBI
+          </p>
+        </div>
+
+        <div
+          class="bg-secondary rounded-2xl p-6 sm:p-8 lg:p-10 flex flex-col items-center justify-center text-center shadow-lg"
+        >
+          <p class="text-white text-base sm:text-lg mb-3 sm:mb-4">There are only</p>
+          <p class="number-font text-white text-4xl sm:text-5xl font-bold mb-3 sm:mb-4">4,700+</p>
+          <p class="text-white text-base sm:text-lg">Approved Drugs</p>
+        </div>
+
+        <div
+          class="bg-secondary rounded-2xl p-6 sm:p-8 lg:p-10 flex flex-col items-center justify-center text-center shadow-lg"
+        >
+          <p class="text-white text-base sm:text-lg mb-3 sm:mb-4">Thus Our Goal is to facilitate</p>
+          <p class="number-font text-white text-4xl sm:text-5xl font-bold">
+            1 drug/disorder
+          </p>
+<p>
+</p>
+<p>
+</p>
+        </div>
+      </div>
+    </div>
+
+<div class="responsive-container content-section mt-16 lg:mt-24">
+    <div class="flex flex-col lg:flex-row justify-between text-center text-white mb-16 gap-8 lg:gap-12">
+        <div class="w-full lg:w-1/2 mb-10 lg:mb-0 p-6 sm:p-8 lg:p-10 rounded-xl">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-6 lg:mb-8 font-['Argent_CF'] tracking-wide">Mission</h2>
+            <p class="text-base sm:text-lg leading-relaxed tracking-wide">
+                In this era of information and heightened computing capability, we are actively building key scientific methods which utilize the transformative power of advanced computational models to accelerate the drug discovery pipeline. We are actively striving to bridge the gap between deep tech and pharmaceutical sciences for quicker, better, and safer drugs to market.
+            </p>
+        </div>
+        <div class="w-full lg:w-1/2 p-6 sm:p-8 lg:p-10 rounded-xl">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-6 lg:mb-8 font-['Argent_CF'] tracking-wide">Core Values</h2>
+            <ul class="list-disc pl-8 space-y-3 sm:space-y-4 text-base sm:text-lg leading-relaxed">
+                <li>Patient Centricity - Build every part responsibly with only focus on patients</li>
+                <li>Integrity - Upholding ethical standards and transparency</li>
+                <li>Innovation - Being unapologetically creative</li>
+            </ul>
+        </div>
+    </div>
+    <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
+        <div class="flex-1 text-white mb-10 lg:mb-0 p-6 sm:p-8 lg:p-10 rounded-xl">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-6 lg:mb-8 text-center font-['Argent_CF'] tracking-wide">Vision</h2>
+            <p class="text-base sm:text-lg leading-relaxed tracking-wide">
+                To identify or discover a drug for every disease
+            </p>
+        </div>
+        <div class="flex-1 p-6 sm:p-8 lg:p-10 rounded-xl flex items-center justify-center">
+            <img
+                src="https://static.readdy.ai/image/5bc27dc9c82ef147db4effa390bd36f6/9dfbfeb9de81508fd856ccf87feb592a.png"
+                alt="Core Values Diagram"
+                style="width: 90%; height: auto; object-fit: contain;"
+                class="shadow-lg rounded-lg"
+                loading="lazy"
+            />
+        </div>
+    </div>
+</div>
+      </div>
+    </div>      
+    </div>
+</section>
+  
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400&display=swap');
+.design-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000;
+  min-height: auto;
+  padding: 60px 0;
+  font-family: Argent CF,Greycliff;
+}
+
+.design {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeline {
+  width: 95%;
+  height: auto;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-content {
+  padding: 16px;
+  background: #1f1f1f;
+  -webkit-box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #242424;
+          box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #242424;
+  border-radius: 5px;
+  color: white;
+  transition: 0.4s ease;
+  overflow-wrap: break-word !important;
+  margin: 0.75rem;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.timeline-content h3,
+.timeline-content h6,
+.timeline-content h7 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.timeline-component {
+  margin: 0px 12px 16px 12px;
+}
+
+@media screen and (min-width: 768px) {
+  .timeline {
+    display: grid;
+    grid-template-columns: 1fr 3px 1fr;
+    width: 85%;
+  }
+  
+  .timeline-content {
+    padding: 1.75rem;
+    margin: 1rem;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+  
+  .timeline-content h3,
+  .timeline-content h6,
+  .timeline-content h7 {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .timeline-middle {
+    position: relative;
+    background-image: linear-gradient(45deg, #F27121, #E94057, #8A2387);
+    width: 3px;
+    height: 100%;
+  }
+  .main-middle {
+    opacity: 0;
+  }
+  .timeline-circle {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-image: linear-gradient(45deg, #F27121, #E94057, #8A2387);
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+  }
+  
+  .timeline-component {
+    margin: 0px 20px 20px 20px;
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.timeline-btn {
+  padding: 8px 16px;
+  border: 2px solid #E94057;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.timeline-btn:hover {
+  background: rgba(233, 64, 87, 0.2);
+}
+
+.timeline-btn.selected {
+  background: #E94057;
+}
+
+.timeline {
+  display: none;
+}
+
+.timeline.active {
+  display: flex;
+}
+
+@media screen and (min-width: 768px) {
+.timeline.active {
+  display: grid;
+  }
+  
+  .timeline-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  .button-container {
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+}
+</style>
+
+<section class="design-section">
+<div class="button-container">
+  <button id="timeline1Btn" class="timeline-btn selected">CT Dock</button>
+  <button id="timeline2Btn" class="timeline-btn">Bioactivity</button>
+</div>
+
+<div id="timeline1" class="timeline active">
+  
+                            <div class="timeline-empty">
+                  </div>
+
+
+               <div class="timeline-middle">
+                   <div class="timeline-circle"></div>
+               </div>
+               <div class="timeline-component timeline-content">
+                <h6>CT Dock  - Jan 2025
+</h6>
+                <p>A minimally designed Module with most optimized user input to execute docking
+</p>
+           </div>
+                <div class="timeline-component timeline-content">
+                         <h7>Database Building – Feb 2025
+</h7>
+                         <p>Reinforcing the efficiency of module through well curated pre processed database of proteins and ligands available in open source. This reduces the user dependance on open source database 
+</p>
+                </div>
+                <div class="timeline-middle">
+                    <div class="timeline-circle"></div>
+                </div>
+                <div class="timeline-empty">
+                </div>
+
+                <div class="timeline-empty">
+                </div>
+
+               <div class="timeline-middle">
+                   <div class="timeline-circle"></div>
+               </div>
+               <div class=" timeline-component timeline-content">
+                <h3>Improving docking efficiency through GPUs – Mar 2025</h3>
+                <p>To improve the computational efficiency GPUs were used.</p>
+           </div>
+<div class="timeline-component timeline-content">
+<h3>Ready for Beta users – April 2025</h3>
+                
+</div>
+
+  
+                 </div>
+  
+    </div>
+
+
+</div>
+
+<div id="timeline2" class="timeline">
+  <div class="timeline-empty">
+  </div>
+  <div class="timeline-middle">
+    <div class="timeline-circle"></div>
+  </div>
+  <div class="timeline-component timeline-content">
+    <h6>Classification module – Dec 2024
+</h6>
+    <p>A simple yet effective digital screening workflow which could identify bioactive compounds for a targets based on available/provided data
+</p>
+  </div>
+  <div class="timeline-component timeline-content">
+    <h7>Prediction module - Feb 2025
+</h7>
+    <p>A more powerful, enhanced, customizable workflow which would precisely predict IC50 values for targets based on available/provided data
+</p>
+  </div>
+  <div class="timeline-middle">
+    <div class="timeline-circle"></div>
+  </div>
+  <div class="timeline-empty">
+  </div>
+  <div class="timeline-empty">
+  </div>
+  <div class="timeline-middle">
+    <div class="timeline-circle"></div>
+  </div>
+  <div class="timeline-component timeline-content">
+    <h3>Database of bioactivity of compounds – Apr 2025
+</h3>
+    <p>Curating a bioactivity database to reduce the user dependance on quality and quantity of data.
+</p>
+  </div>
+  <div class="timeline-component timeline-content">
+    <h7>Advanced computational options for fine tuning data – Apr 2025
+</h7>
+    <p>An Advanced mode enabled for fine results.
+</p>
+
+  </div>
+<div class="timeline-middle">
+    <div class="timeline-circle"></div>
+  </div>
+  <div class="timeline-empty"></div>
+  <div class="timeline-empty"></div>
+  <div class="timeline-middle">
+    <div class="timeline"></div>
+  </div>
+  <div class="timeline-component timeline-content">
+    <h3>Ready for Beta Users – Apr 2025</h3>
+  </div>
+</div>
+
+<script>
+document.getElementById('timeline1Btn').addEventListener('click', function() {
+  document.getElementById('timeline1').classList.add('active');
+  document.getElementById('timeline2').classList.remove('active');
+  document.getElementById('timeline1Btn').classList.add('selected');
+  document.getElementById('timeline2Btn').classList.remove('selected');
+});
+
+document.getElementById('timeline2Btn').addEventListener('click', function() {
+  document.getElementById('timeline1').classList.remove('active');
+  document.getElementById('timeline2').classList.add('active');
+  document.getElementById('timeline2Btn').classList.add('selected');
+  document.getElementById('timeline1Btn').classList.remove('selected');
+});
+</script>
+
+</section>
+<section id="services" class="py-24">
+<div class="container mx-auto px-6">
+<div class="flex flex-col lg:flex-row">
+<div class="w-full lg:w-[35%] pr-0 lg:pr-16 flex flex-col justify-center mb-12 lg:mb-0">
+<h2 class="font-argent text-3xl sm:text-4xl mb-8 text-center lg:text-left tracking-wide">Our Products</h2>
+<p class="font-greycliff text-base sm:text-lg text-gray-300 text-center lg:text-left leading-relaxed">Accelerate drug discovery with AI-powered target identification, bioactivity prediction, and a robust compound database.</p>
+</div>
+<div class="w-full lg:w-[65%]">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+<div class="service-card p-8 border border-gray-800 rounded-lg cursor-pointer text-center transform transition duration-300 hover:-translate-y-2 shadow-md hover:shadow-xl">
+<div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZiI+PHBhdGggZD0iTTEyIDJDNi40NzcgMiAyIDYuNDc3IDIgMTJzNC40NzcgMTAgMTAgMTAgMTAtNC40NzcgMTAtMTBTMTcuNTIzIDIgMTIgMnptMCAxOGMtNC40MTEgMC04LTMuNTg5LTgtOHMzLjU4OS04IDgtOCA4IDMuNTg5IDggOC0zLjU4OSA4LTggOHoiLz48cGF0aCBkPSJNMTIgN2MtMi43NTcgMC01IDIuMjQzLTUgNXMyLjI0MyA1IDUgNSA1LTIuMjQzIDUtNS0yLjI0My01LTUtNXptMCA4Yy0xLjY1NCAwLTMtMS4zNDYtMy0zczEuMzQ2LTMgMy0zIDMgMS4zNDYgMyAzLTEuMzQ2IDMtMyAzeiIvPjxwYXRoIGQ9Ik0xMiA5Yy0xLjY1NCAwLTMgMS4zNDYtMyAzczEuMzQ2IDMgMyAzIDMtMS4zNDYgMy0zLTEuMzQ2LTMtMy0zem0wIDRjLS41NTIgMC0xLS40NDgtMS0xcy40NDgtMSAxLTEgMSAuNDQ4IDEgMS0uNDQ4IDEtMSAxeiIvPjwvc3ZnPg==" alt="Target" class="w-full h-full">
+</div>
+<h3 class="font-argent text-xl sm:text-2xl mb-4 tracking-wide">Target Identification</h3>
+<p class="font-greycliff text-sm sm:text-base text-gray-300 leading-relaxed">Discover novel disease targets with Omics data analysis</p>
+</div>
+<div class="service-card p-8 border border-gray-800 rounded-lg cursor-pointer text-center transform transition duration-300 hover:-translate-y-2 shadow-md hover:shadow-xl">
+<div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6">
+    <img src="https://cdn1.vectorstock.com/i/1000x1000/70/80/social-network-feedback-icons-with-black-filled-vector-45677080.jpg" alt="Docking" class="w-full h-full object-cover">
+</div>
+<h3 class="font-argent text-xl sm:text-2xl mb-4 tracking-wide">Docking</h3>
+<p class="font-greycliff text-sm sm:text-base text-gray-300 leading-relaxed">Click to Dock</p>
+</div>
+<div class="service-card p-8 border border-gray-800 rounded-lg cursor-pointer text-center transform transition duration-300 hover:-translate-y-2 shadow-md hover:shadow-xl">
+<div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6">
+    <img src="img/image_.jpg" alt="Bio" class="w-full h-full">
+</div>
+<h3 class="font-argent text-xl sm:text-2xl mb-4 tracking-wide">Bioactivity Prediction</h3>
+<p class="font-greycliff text-sm sm:text-base text-gray-300 leading-relaxed">Predict bioactivity of compounds using Powerful, Customizable AI/ML models for existing/new disease targets</p>
+</div>
+<div class="service-card p-8 border border-gray-800 rounded-lg cursor-pointer text-center transform transition duration-300 hover:-translate-y-2 shadow-md hover:shadow-xl">
+<div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZiI+PHBhdGggZD0iTTEyIDJMMiA3djEwbDEwIDUgMTAtNVY3bC0xMC01em0wIDE2LjV2LTlMNCA3bDggMi41djlsLTgtMi41di03bDgtMi41IDggMi41djdsLTggMi41eiIvPjwvc3ZnPg==" alt="Database" class="w-full h-full">
+</div>
+<h3 class="font-argent text-xl sm:text-2xl mb-4 tracking-wide">Database</h3>
+<p class="font-greycliff text-sm sm:text-base text-gray-300 leading-relaxed">Robust & organized chemical compound database with biological properties</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="blog" class="py-24">
+<div class="container mx-auto px-6">
+<h2 class="font-argent text-3xl sm:text-4xl mb-12 sm:mb-16 text-center tracking-wide">Our Blogs</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="blog-card border border-gray-800 rounded-lg overflow-hidden transform transition duration-500 hover:scale-105 hover:shadow-2xl hover:border-white shadow-lg cursor-pointer" onclick="openPdfModal('blog/molecular_docking.pdf', 'Molecular Docking')">
+<img src="https://public.readdy.ai/ai/img_res/48429d7443645a6d05a8eecd2db0a093.jpg" alt="Molecular Docking" class="w-full h-48 object-cover transition duration-500 hover:scale-110" loading="lazy">
+<div class="p-6">
+<h3 class="font-argent text-lg sm:text-xl mb-3 transition duration-300 group-hover:text-white tracking-wide">Molecular Docking</h3>
+<p class="font-greycliff text-sm sm:text-base text-gray-300 transition duration-300 group-hover:text-gray-100 leading-relaxed">Exploring cutting-edge molecular docking techniques for drug discovery and protein-ligand interactions analysis.</p>
+</div>
+</div>
+<div class="blog-card border border-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer" onclick="openPdfModal('blog/rna_sequencing.pdf', 'RNA-Sequencing')">
+<img src="https://public.readdy.ai/ai/img_res/6d6356579fe1fbd720bd2171786d3706.jpg" alt="RNA-Sequencing" class="w-full h-48 object-cover" loading="lazy">
+<div class="p-6">
+<h3 class="font-argent text-lg sm:text-xl mb-3 tracking-wide">RNA-Sequencing</h3>
+<p class="font-greycliff text-sm sm:text-base text-gray-300 leading-relaxed">Latest developments in RNA sequencing technologies and their applications in understanding gene expression patterns.</p>
+</div>
+</div>
+<div class="blog-card border border-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer" onclick="openPdfModal('blog/genai_chemistry.pdf', 'Unveiling the Chemistry Behind GenAI')">
+<img src="https://public.readdy.ai/ai/img_res/4b62a99b0d50690e25ab88d29387a5cc.jpg" alt="Unveiling the Chemistry Behind GenAI" class="w-full h-48 object-cover" loading="lazy">
+<div class="p-6">
+<h3 class="font-argent text-lg sm:text-xl mb-3 tracking-wide">Unveiling the Chemistry Behind GenAI</h3>
+<p class="font-greycliff text-sm sm:text-base text-gray-300 leading-relaxed">Advanced computational methods for predicting biological activity of drug compounds using machine learning.</p>
+</div>
+</div>
+<div class="blog-card border border-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer" onclick="openPdfModal('blog/genai_chemistry.pdf', 'Unveiling the Chemistry Behind GenAI')">
+<img src="https://public.readdy.ai/ai/img_res/224d65ac7b9217ea6defd7e2a1e1e258.jpg" alt="Unveiling the Chemistry Behind GenAI" class="w-full h-48 object-cover" loading="lazy">
+<div class="p-6">
+<h3 class="font-argent text-lg sm:text-xl mb-3 tracking-wide">Unveiling the Chemistry Behind GenAI</h3>
+<p class="font-greycliff text-sm sm:text-base text-gray-300 leading-relaxed">Understanding protein dynamics and drug interactions through advanced molecular dynamics simulation techniques.</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- PDF Modal Overlay -->
+<div id="pdfModal" class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center hidden">
+    <div class="relative w-full max-w-6xl h-5/6 bg-gray-900 rounded-lg shadow-2xl p-2">
+        <button id="closeModal" class="absolute top-2 right-2 text-white bg-red-600 rounded-full p-1 w-8 h-8 flex items-center justify-center hover:bg-red-700 transition-colors">
+            <span class="text-xl font-bold">&times;</span>
+        </button>
+        <h2 id="modalTitle" class="text-white text-xl font-argent mb-2 px-4"></h2>
+        <div class="w-full h-[calc(100%-40px)]">
+            <iframe id="pdfViewer" class="w-full h-full rounded-lg" frameborder="0"></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openPdfModal(pdfUrl, title) {
+        const modal = document.getElementById('pdfModal');
+        const pdfViewer = document.getElementById('pdfViewer');
+        const modalTitle = document.getElementById('modalTitle');
+        
+        // Set the iframe source and title
+        pdfViewer.src = pdfUrl;
+        modalTitle.textContent = title;
+        
+        // Show the modal
+        modal.classList.remove('hidden');
+        
+        // Prevent scrolling on the body
+        document.body.style.overflow = 'hidden';
+    }
+    
+    // Close modal when clicking the close button
+    document.getElementById('closeModal').addEventListener('click', function() {
+        const modal = document.getElementById('pdfModal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    });
+    
+    // Close modal when clicking outside the content
+    document.getElementById('pdfModal').addEventListener('click', function(event) {
+        if (event.target === this) {
+            this.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+    });
+</script>
+</section>
+    <section id="story" class="py-16 sm:py-24 bg-black">
+        <div class="container mx-auto px-6">
+            <h2 class="font-argent text-4xl text-center mb-10 tracking-wide">Our Story – A founder's Perspective</h2>
+            
+            <div class="newspaper-container mx-auto max-w-4xl">
+                <!-- Newspaper headline -->
+                <div class="text-center mb-10">
+                    <h3 class="font-argent text-2xl sm:text-3xl italic mb-3">"She was a good person but still cancer won"</h3>
+                    <div class="w-24 h-0.5 bg-white mx-auto"></div>
+                </div>
+                
+                <div class="flex flex-col lg:flex-row gap-10">
+                    <!-- Left column -->
+                    <div class="lg:w-1/2 lg:pr-5">
+                        <p class="first-letter:text-5xl first-letter:font-bold first-letter:mr-2 first-letter:float-left font-greycliff text-base sm:text-lg leading-relaxed mb-6">
+                            I believe in virtues, I believe in fairness. But nothing was fair in terminal illness.
+                        </p>
+                        
+                        <p class="font-greycliff text-base sm:text-lg leading-relaxed mb-6">
+                            The unfair thing is the acceptance that there isn't treatment and the worst part is telling patients that we don't have resources to find a treatment.
+                        </p>
+                        
+                        <!-- Image for mobile view -->
+                        <div class="block lg:hidden my-8">
+                            <img src="img/image_gen.jpg" alt="Our Story Image" class="w-full rounded-lg shadow-lg">
+                            <p class="text-xs text-gray-400 mt-3 italic text-center">The urgent need for innovative drug discovery approaches</p>
+                        </div>
+                        
+                        <p class="font-greycliff text-base sm:text-lg leading-relaxed mb-6">
+                            This statement has hit me hard and kept me awake at nights for answers. I have always felt if there were more medicinal chemists, more pharmaceutical scientists, and more people working on drug discovery, it could have yielded more drugs.
+                        </p>
+                        
+                        <div class="hidden lg:block bg-gray-900 p-6 rounded-lg shadow-lg my-8">
+                            <p class="font-argent text-lg italic text-white border-l-4 border-white pl-4">
+                                "The dream of more medicinal chemists, more pharmaceutical scientists, and more people working on drug discovery was fulfilled not by humans but by computers."
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Right column with image for desktop -->
+                    <div class="lg:w-1/2 lg:pl-5">
+                        <!-- Image for desktop view -->
+                        <div class="hidden lg:block mb-8">
+                            <img src="img/image_gen.jpg" alt="Our Story Image" class="w-full rounded-lg shadow-lg">
+                            <p class="text-xs text-gray-400 mt-3 italic text-center">The urgent need for innovative drug discovery approaches</p>
+                        </div>
+                        
+                        <div class="block lg:hidden bg-gray-900 p-6 rounded-lg shadow-lg my-8">
+                            <p class="font-argent text-lg italic text-white border-l-4 border-white pl-4">
+                                "The dream of more medicinal chemists, more pharmaceutical scientists, and more people working on drug discovery was fulfilled not by humans but by computers."
+                            </p>
+                        </div>
+                        
+                        <p class="font-greycliff text-base sm:text-lg leading-relaxed mb-6">
+                            In a very normal conversation with my co-founder (then just a friend who liked to have curious conversations), after a statistical discourse, we started ideating about regression models to predict properties of compounds. As he had interesting work experience in deep technology, we started to ideate an imaginary workflow and thus kick-started our journey into using AI/ML to support drug discovery pipelines.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Footer quote -->
+                <div class="mt-12 border-t border-gray-800 pt-8">
+                    <p class="font-greycliff text-base sm:text-lg text-center italic">
+                        Thus, the dream of "more medicinal chemists, more pharmaceutical scientists, and more people working on drug discovery" was fulfilled not by humans but by computers.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+<section id="team" class="py-24 bg-black">
+<div class="container mx-auto px-6">
+<div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-20">
+<h7 class="font-argent text-3xl sm:text-4xl lg:text-5xl text-white w-full lg:w-1/3 mb-10 lg:mb-0 text-center lg:text-left tracking-wide">Meet Our Experienced Team</h7>
+<div class="flex flex-wrap justify-center gap-10 w-full lg:w-2/3">
+<div class="flip-card">
+<div class="flip-card-inner">
+<div class="flip-card-front bg-white rounded-full p-6 flex flex-col justify-center items-center w-64 h-64 shadow-xl">
+<h3 class="font-argent text-xl sm:text-2xl text-black mb-3 tracking-wide">Vedagiriswaran N</h3>
+<p class="font-greycliff font-bold text-gray-600 text-center">CEO</p>
+</div>
+<div class="flip-card-back bg-white rounded-full p-6 flex flex-col justify-center items-center w-64 h-64 shadow-xl">
+<h3 class="font-argent text-lg sm:text-xl text-black mb-4 tracking-wide">Work Experience</h3>
+<ul class="text-xs sm:text-sm text-gray-600 text-center leading-relaxed">
+<li>Chemical engineer by virtue, with specialisation & hands on experience on pharmaceuticals operations and management. The man behind all the pharmaceutical processes and workflows.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="flip-card">
+<div class="flip-card-inner">
+<div class="flip-card-front bg-white rounded-full p-6 flex flex-col justify-center items-center w-64 h-64 shadow-xl">
+<h3 class="font-argent text-xl sm:text-2xl text-black mb-3 tracking-wide">Kumara Guru R</h3>
+<p class="font-greycliff font-bold text-gray-600 text-center">CTO</p>
+</div>
+<div class="flip-card-back bg-white rounded-full p-6 flex flex-col justify-center items-center w-64 h-64 shadow-xl">
+<h3 class="font-argent text-lg sm:text-xl text-black mb-4 tracking-wide">Work Experience</h3>
+<ul class="text-xs sm:text-sm text-gray-600 text-center leading-relaxed">
+<li>A chemical engineer with specialisation & experienced in cheminformatics, AI/ML. The one who takes care of anything and everything in the digital space.  
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<style>
+.flip-card {
+perspective: 1000px;
+height: 256px;
+width: 256px;
+margin: 0 auto;
+}
+.flip-card-inner {
+position: relative;
+width: 100%;
+height: 100%;
+text-align: center;
+transition: transform 0.8s;
+transform-style: preserve-3d;
+}
+.flip-card:hover .flip-card-inner {
+transform: rotateY(180deg);
+}
+.flip-card-front, .flip-card-back {
+position: absolute;
+width: 100%;
+height: 100%;
+-webkit-backface-visibility: hidden;
+backface-visibility: hidden;
+}
+.flip-card-back {
+transform: rotateY(180deg);
+}
+
+@media (max-width: 640px) {
+    .flip-card {
+        height: 200px;
+        width: 200px;
+    }
+    .flip-card-front, .flip-card-back {
+        padding: 4px;
+    }
+}
+</style>
+</section>
+<style>
+.blog-card img {
+transition: all 0.5s ease;
+}
+.blog-card:hover img {
+transform: scale(1.1);
+}
+.blog-card h3,
+.blog-card p {
+transition: all 0.3s ease;
+}
+.blog-card:hover h3 {
+color: white;
+}
+.blog-card:hover p {
+color: #f3f4f6;
+}
+.flip-card {
+perspective: 1000px;
+height: 400px;
+}
+.flip-card-inner {
+position: relative;
+width: 100%;
+height: 100%;
+text-align: center;
+transition: transform 0.8s;
+transform-style: preserve-3d;
+}
+.flip-card:hover .flip-card-inner {
+transform: rotateY(180deg);
+}
+.flip-card-front, .flip-card-back {
+position: absolute;
+width: 100%;
+height: 100%;
+-webkit-backface-visibility: hidden;
+backface-visibility: hidden;
+}
+.flip-card-back {
+transform: rotateY(180deg);
+}
+</style>
+</section>
+</main>
+<section class="bg-black py-16 sm:py-24">
+<div class="container mx-auto px-6">
+<div class="flex flex-col md:flex-row items-center justify-between">
+<div class="w-full md:w-1/2 mb-10 md:mb-0 flex justify-center">
+<img src="https://static.readdy.ai/image/99e5182bf3e81abfdbbf953c275cea1a/ec852433aed40499c3761714fba8bd84.png" alt="Newsletter" class="w-full max-w-sm h-auto" loading="lazy">
+</div>
+<div class="w-full md:w-1/2 md:pl-12">
+<h2 class="font-argent text-3xl sm:text-4xl md:text-5xl text-white mb-6 sm:mb-8 text-center md:text-left tracking-wide">Let's subscribe to our newsletter</h2>
+<div class="relative max-w-md mx-auto md:mx-0">
+<input type="email" placeholder="Enter Your Email" class="w-full px-4 sm:px-6 py-3 sm:py-4 rounded-full text-black shadow-lg focus:outline-none focus:ring-2 focus:ring-white">
+<button class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-primary text-white rounded-full hover:bg-gray-800 transition duration-300">
+<i class="ri-send-plane-fill"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<style>
+  .form-input-custom {
+    width: 100%;
+  }
+  
+  .contact-form input,
+  .contact-form textarea,
+  .contact-form select {
+    transition: all 0.3s ease;
+  }
+  
+  .contact-form input:focus,
+  .contact-form textarea:focus,
+  .contact-form select:focus {
+    border-color: white;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.2);
+    }
+</style>
+<footer class="bg-black py-16 sm:py-24">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <form class="bg-black py-8 px-6 sm:px-8 rounded-xl md:col-span-2 contact-form" action="mailto:support@quantcure.com" method="post" enctype="text/plain">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-white font-bold mb-2" for="name">Name:</label>
+                        <input class="shadow appearance-none border border-gray-700 rounded-lg w-full py-3 px-4 text-white bg-gray-800 focus:outline-none focus:ring-2 focus:ring-white" id="name" name="name" type="text" placeholder="Your Name">
+                    </div>
+                    <div>
+                        <label class="block text-white font-bold mb-2" for="email">Email:</label>
+                        <input class="shadow appearance-none border border-gray-700 rounded-lg w-full py-3 px-4 text-white bg-gray-800 focus:outline-none focus:ring-2 focus:ring-white" id="email" name="email" type="email" placeholder="Your Email">
+                    </div>
+                    <div>
+                        <label class="block text-white font-bold mb-2" for="contact">Contact Number:</label>
+                        <input class="shadow appearance-none border border-gray-700 rounded-lg w-full py-3 px-4 text-white bg-gray-800 focus:outline-none focus:ring-2 focus:ring-white" id="contact" name="contact" type="tel" placeholder="Your Contact Number">
+                    </div>
+                    <div class="relative">
+                        <label class="block text-white font-bold mb-2" for="subject">Subject:</label>
+                        <div class="relative">
+                            <select class="shadow appearance-none border border-gray-700 rounded-lg w-full py-3 px-4 text-white bg-gray-800 focus:outline-none focus:ring-2 focus:ring-white appearance-none" id="subject" name="subject">
+                                <option value="career">Career</option>
+                                <option value="collaboration">Collaboration</option>
+                                <option value="enquiry">Enquiry</option>
+                                <option value="others">Others</option>
+                            </select>
+                            <i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 text-white pointer-events-none"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <label class="block text-white font-bold mb-2" for="message">Message:</label>
+                    <textarea class="shadow appearance-none border border-gray-700 rounded-lg w-full py-3 px-4 text-white bg-gray-800 focus:outline-none focus:ring-2 focus:ring-white h-32" id="message" name="message" placeholder="Write your message here..."></textarea>
+                </div>
+                <div class="flex justify-center mt-6">
+                    <button class="bg-white text-black hover:bg-gray-200 font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-white transition duration-300" type="submit">
+                        Send Message
+                    </button>
+                </div>
+            </form>
+
+            <div class="bg-black p-8">
+                <h3 class="font-argent text-xl sm:text-2xl text-white mb-6 text-center md:text-left tracking-wide">Get In Touch</h3>
+                <div class="space-y-4">
+                    <p class="font-greycliff text-gray-300 flex items-center gap-3">
+                        <i class="ri-map-pin-line text-white"></i>
+                        694, TNHB colony(Ph3), Ambattur Chennai
+                    </p>
+                    <p class="font-greycliff text-gray-300 flex items-center gap-3">
+                        <i class="ri-phone-line text-white"></i>
+                        +91 8122981799
+                    </p>
+                    <p class="font-greycliff text-gray-300 flex items-center gap-3">
+                        <i class="ri-mail-line text-white"></i>
+                        support@quantcure.com
+                    </p>
+                    <p class="font-greycliff text-gray-300 flex items-center gap-3">
+                        <i class="ri-linkedin-line text-white"></i>
+                        <a href="https://www.linkedin.com/company/quantcure" target="_blank" class="hover:text-white transition-colors">LinkedIn</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="mt-16 pt-8 border-t border-gray-800">
+<div class="container mx-auto px-6">
+<div class="flex flex-col sm:flex-row justify-center items-center">
+<p class="font-greycliff text-gray-400">© Quantcure, All Rights Reserved.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+<script>
+// Menu toggle functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const menuBtn = document.getElementById('menuBtn');
+    const menu = document.getElementById('menu');
+    const mainNav = document.getElementById('mainNav');
+    
+    // Variables for scroll handling
+    let lastScrollTop = 0;
+    const scrollThreshold = 10;
+    
+    // Add IDs to each section for smooth scrolling
+    const sections = [
+        { id: 'stats', selector: '.container.mx-auto.max-w-4xl' },
+        { id: 'mission', selector: '.mt-20.max-w-4xl.mx-auto' },
+        { id: 'timeline', selector: '.design-section' },
+        { id: 'contact', selector: 'footer' }
+    ];
+    
+    // Add IDs to sections that don't have them
+    sections.forEach(section => {
+        const element = document.querySelector(section.selector);
+        if (element && !document.getElementById(section.id)) {
+            element.id = section.id;
+        }
+    });
+    
+    // Handle navbar visibility on scroll
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // If we've scrolled past the threshold
+        if (scrollTop > 100) {
+            // Scrolling down
+            if (scrollTop > lastScrollTop + scrollThreshold) {
+                mainNav.style.transform = 'translateY(-100%)';
+                mainNav.style.opacity = '0';
+            } 
+            // Scrolling up
+            else if (scrollTop < lastScrollTop - scrollThreshold) {
+                mainNav.style.transform = 'translateY(0)';
+                mainNav.style.opacity = '1';
+                mainNav.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+            }
+        } else {
+            // At the top of the page
+            mainNav.style.transform = 'translateY(0)';
+            mainNav.style.opacity = '1';
+            mainNav.style.backgroundColor = 'transparent';
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+    
+    menuBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        menu.classList.toggle('menu-open');
+        if (menu.classList.contains('menu-open')) {
+            menu.style.transform = 'translateX(0)';
+            menu.style.opacity = '1';
+        } else {
+            menu.style.transform = 'translateX(100%)';
+            menu.style.opacity = '0';
+        }
+    });
+    
+    // Close menu when clicking on links
+    const menuLinks = document.querySelectorAll('#menu a');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            menu.classList.remove('menu-open');
+            menu.style.transform = 'translateX(100%)';
+            menu.style.opacity = '0';
+            
+            // Smooth scroll to the section
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                event.preventDefault();
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!menu.contains(event.target) && !menuBtn.contains(event.target) && menu.classList.contains('menu-open')) {
+            menu.classList.remove('menu-open');
+            menu.style.transform = 'translateX(100%)';
+            menu.style.opacity = '0';
+        }
+    });
+    
+    // Handle smooth scrolling for all anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>
